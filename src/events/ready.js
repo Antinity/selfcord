@@ -16,7 +16,6 @@ module.exports = {
             if (!key) return;
 
             const data = jsonData[key];
-            console.log(data);
 
             if (!data.time || data.time === "") data.time = Date.now();
 
