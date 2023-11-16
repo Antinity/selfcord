@@ -1,4 +1,5 @@
 const { RichPresence, DiscordRPCServer } = require('discord.js-selfbot-v13');
+const mongoose = require("mongoose");
 const config = require('../../config.json');
 
 module.exports = {
@@ -6,6 +7,23 @@ module.exports = {
     once: true,
     async execute(client) {
         console.log(`[✓] Successfully logged in as ${client.user.username}`);
+
+        // MongoDB Connection
+
+        await mongoose.set("strictQuery", true);
+
+        if (!config.mongodb) return;
+
+        await mongoose.connect(config.mongodb, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        })
+
+        if (mongoose.connect) {
+            console.log("[✓] Sucessfully connected to MongoDB.");
+        }
+
+        // Rich Presence
 
         const jsonData = config.rpc;
         let currentKeyIndex = 0;
